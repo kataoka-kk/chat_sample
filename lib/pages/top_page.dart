@@ -17,6 +17,12 @@ class _TopPageState extends State<TopPage> {
       imagePath:
           'https://assets.st-note.com/production/uploads/images/58075596/profile_7d12166cbb91dd3ff25bbed3898bdd76.png?width=104&height=104&dpr=2&crop=1:1,smart',
       lastMessage: 'こんにちは',
+    ),
+    User(
+      name: '佐藤',
+      uid: 'abc',
+      imagePath: null,
+      lastMessage: 'おはよう',
     )
   ];
 
@@ -24,7 +30,46 @@ class _TopPageState extends State<TopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('チャットアプリ')),
-      body: const Center(child: Text('メイン画面')),
+      body: ListView.builder(
+        itemCount: userList.length,
+        itemBuilder: (context, index) {
+          return SizedBox(
+            height: 70,
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: userList[index].imagePath == null
+                        ? null
+                        : NetworkImage(userList[index].imagePath!),
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      userList[index].name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      userList[index].lastMessage,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
