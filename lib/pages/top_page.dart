@@ -1,3 +1,4 @@
+import 'package:chat_sample/pages/talk_room_page.dart';
 import 'package:flutter/material.dart';
 
 import '../model/user.dart';
@@ -33,39 +34,49 @@ class _TopPageState extends State<TopPage> {
       body: ListView.builder(
         itemCount: userList.length,
         itemBuilder: (context, index) {
-          return SizedBox(
-            height: 70,
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: CircleAvatar(
-                    radius: 30,
-                    backgroundImage: userList[index].imagePath == null
-                        ? null
-                        : NetworkImage(userList[index].imagePath!),
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TalkRoomPage(userList[index].name),
+                ),
+              );
+            },
+            child: SizedBox(
+              height: 70,
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: userList[index].imagePath == null
+                          ? null
+                          : NetworkImage(userList[index].imagePath!),
+                    ),
                   ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      userList[index].name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userList[index].name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      userList[index].lastMessage,
-                      style: const TextStyle(
-                        color: Colors.grey,
+                      Text(
+                        userList[index].lastMessage,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         },
