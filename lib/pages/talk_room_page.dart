@@ -15,14 +15,44 @@ class TalkRoomPage extends StatefulWidget {
 class _TalkRoomPageState extends State<TalkRoomPage> {
   List<Message> messageList = [
     Message(
-      message: 'message1',
+      message: 'message',
       isMe: true,
       sendTime: DateTime(2022, 10, 1, 0),
     ),
     Message(
-      message: 'message2',
+      message: 'message',
       isMe: false,
       sendTime: DateTime(2022, 10, 2, 12),
+    ),
+    Message(
+      message: 'message',
+      isMe: false,
+      sendTime: DateTime(2022, 10, 2, 12),
+    ),
+    Message(
+      message: 'message',
+      isMe: false,
+      sendTime: DateTime(2022, 10, 2, 12),
+    ),
+    Message(
+      message: 'message',
+      isMe: true,
+      sendTime: DateTime(2022, 10, 2, 12),
+    ),
+    Message(
+      message: 'message',
+      isMe: false,
+      sendTime: DateTime(2022, 10, 2, 12),
+    ),
+    Message(
+      message: 'message',
+      isMe: false,
+      sendTime: DateTime(2022, 10, 2, 14),
+    ),
+    Message(
+      message: 'message',
+      isMe: true,
+      sendTime: DateTime(2022, 10, 2, 14),
     ),
   ];
 
@@ -33,47 +63,84 @@ class _TalkRoomPageState extends State<TalkRoomPage> {
       appBar: AppBar(
         title: Text(widget.name),
       ),
-      body: ListView.builder(
-        physics: const RangeMaintainingScrollPhysics(),
-        shrinkWrap: true,
-        reverse: true,
-        itemCount: messageList.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.only(
-              top: 12.0,
-              left: 12.0,
-              right: 12.0,
-              bottom: index == 0 ? 10 : 0,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                physics: const RangeMaintainingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: messageList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      textDirection: messageList[index].isMe
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
+                      children: [
+                        Container(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: messageList[index].isMe
+                                ? Colors.green
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
+                          child: Text('${messageList[index].message} $index'),
+                        ),
+                        Text(
+                          intl.DateFormat('HH:mm')
+                              .format(messageList[index].sendTime),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              textDirection: messageList[index].isMe
-                  ? TextDirection.rtl
-                  : TextDirection.ltr,
+            Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width * 0.6,
+                  color: Colors.white,
+                  height: 60,
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.only(left: 10),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.send),
+                      )
+                    ],
                   ),
-                  decoration: BoxDecoration(
-                    color:
-                        messageList[index].isMe ? Colors.green : Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 8,
-                  ),
-                  child: Text(messageList[index].message),
                 ),
-                Text(
-                  intl.DateFormat('HH:mm').format(messageList[index].sendTime),
+                Container(
+                  color: Colors.white,
+                  height: MediaQuery.of(context).padding.bottom,
                 ),
               ],
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
