@@ -1,5 +1,7 @@
+import 'package:chat_sample/firestore/room_firestore.dart';
 import 'package:chat_sample/firestore/user_firestore.dart';
 import 'package:chat_sample/pages/top_page.dart';
+import 'package:chat_sample/utils/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +12,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  UserFirestore.fetchUsers();
+  await SharedPrefs.setPrefsInstance();
+  final myUid = await UserFirestore.createUser();
+  if (myUid != null) {
+    RoomFirestore.createRoom(myUid);
+    SharedPrefs.setUid(myUid);
+  }
+
   runApp(const MyApp());
 }
 
