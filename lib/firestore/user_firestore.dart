@@ -19,14 +19,16 @@ class UserFirestore {
     }
   }
 
-  static Future<void> fetchUsers() async {
+  static Future<List<QueryDocumentSnapshot>?> fetchUsers() async {
     try {
       final snapshot = await _userCollection.get();
-      snapshot.docs.forEach((doc) {
+      for (var doc in snapshot.docs) {
         print('ドキュメントID： ${doc.id} ----- 名前： ${doc.data()['name']}');
-      });
+      }
+      return snapshot.docs;
     } catch (e) {
       print('ユーザー情報の取得失敗 ===== $e');
+      return null;
     }
   }
 }
