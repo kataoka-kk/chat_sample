@@ -1,3 +1,4 @@
+import 'package:chat_sample/firestore/user_firestore.dart';
 import 'package:chat_sample/pages/top_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  UserFirestore.fetchUsers();
   runApp(const MyApp());
 }
 
